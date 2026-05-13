@@ -1,132 +1,144 @@
-/* リセットと基本設定 */
+/* 全体設定 */
 body {
     margin: 0;
-    padding: 20px 15px;
-    background: #f4f7f6;
-    font-family: sans-serif;
+    padding: 20px 10px;
+    background: #f3f6fb;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
     color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
 }
 
 .container {
-    width: 100%;
-    max-width: 400px;
-    background: #ffffff;
-    padding: 35px 25px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    max-width: 450px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px 25px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 h1 {
     text-align: center;
     font-size: 1.4rem;
-    margin-bottom: 10px;
     color: #2c3e50;
-}
-
-.desc {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #7f8c8d;
     margin-bottom: 30px;
+    line-height: 1.4;
 }
 
-/* フォーム部品 */
+/* フォームのパーツ */
 .input-group {
-    margin-bottom: 25px;
+    margin-bottom: 24px;
 }
 
 .label-title {
     display: block;
     font-weight: bold;
-    font-size: 0.85rem;
-    margin-bottom: 8px;
-    color: #34495e;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #5a67d8; /* 少しアクセント色 */
 }
 
-input[type="text"],
+input[type="text"], 
 input[type="number"] {
     width: 100%;
     padding: 14px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 1rem;
+    border: 2px solid #edf2f7;
+    border-radius: 12px;
+    font-size: 16px;
     box-sizing: border-box;
-    background: #f9f9f9;
+    background: #f8fafc;
+    transition: all 0.2s ease;
 }
 
-/* ラジオボタンをボタン風に */
+input:focus {
+    border-color: #5a67d8;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.1);
+}
+
+/* ラジオボタンのカスタマイズ */
 .radio-group {
     display: flex;
-    gap: 10px;
+    gap: 12px;
 }
 
 .radio-group label {
     flex: 1;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    padding: 14px;
+    background: #f8fafc;
+    border: 2px solid #edf2f7;
+    border-radius: 12px;
     text-align: center;
     cursor: pointer;
-    background: #fff;
     font-weight: bold;
-    transition: 0.2s;
+    transition: all 0.2s;
 }
 
 .radio-group input {
     display: none;
 }
 
+/* 選択時のスタイル */
 .radio-group label:has(input:checked) {
-    background: #4CAF50;
-    color: #fff;
     border-color: #4CAF50;
+    background: #f0fff4;
+    color: #2f855a;
 }
 
-/* 人数欄 */
+/* 人数エリアのアニメーション */
 #peopleArea {
     display: none;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* 送信ボタン */
-#submitBtn {
+button#submitBtn {
     width: 100%;
     padding: 16px;
-    background: #2c3e50;
+    background: #5a67d8;
     color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: bold;
+    border-radius: 12px;
     cursor: pointer;
-    transition: 0.3s;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background 0.2s;
 }
 
-#submitBtn:active {
-    transform: scale(0.98);
+button#submitBtn:hover {
+    background: #4c51bf;
 }
 
-/* 完了画面 */
+button:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+}
+
+/* 送信完了画面 */
 #successMsg {
     display: none;
     text-align: center;
+    padding: 20px 0;
 }
 
 .success-icon {
-    font-size: 3rem;
+    font-size: 50px;
     color: #4CAF50;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .back-btn {
-    margin-top: 20px;
-    background: #ecf0f1;
-    color: #34495e;
+    background: #718096;
+    color: white;
     border: none;
-    padding: 12px 20px;
+    padding: 10px 20px;
     border-radius: 8px;
+    margin-top: 20px;
     cursor: pointer;
 }
