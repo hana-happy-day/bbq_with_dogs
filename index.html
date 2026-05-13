@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イベント出欠確認</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>
+            2026年6月○日○曜日<br>
+            イベント出欠確認
+        </h1>
+
+        <div class="row header">
+            <div>名前</div>
+            <div>出欠</div>
+            <div>人数</div>
+            <!-- <div>操作</div> -->
+        </div>
+
+        <div id="rows"></div>
+    </div>
+
+    <script>
+        const rowsContainer = document.getElementById("rows");
+
+        // 10行作成
+        for (let i = 1; i <= 10; i++) {
+            const row = document.createElement("div");
+            row.className = "row card";
+
+            row.innerHTML = `
+                <div class="input-unit name-unit">
+                    <input type="text" placeholder="名前を入力">
+                </div>
+
+                <div class="input-unit">
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="status${i}" value="出席">
+                            <span>出席</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="status${i}" value="欠席">
+                            <span>欠席</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-unit people-area">
+                    <input type="number" min="1" value="">
+                </div>
+
+                <div class="input-unit">
+                    <button type="button">確定</button>
+                </div>
+            `;
+
+            rowsContainer.appendChild(row);
+
+            const radios = row.querySelectorAll(`input[name="status${i}"]`);
+            const peopleArea = row.querySelector(".people-area");
+            const button = row.querySelector("button");
+            const nameInput = row.querySelector('input[type="text"]');
+            const numberInput = row.querySelector('input[type="number"]');
+
+            // 出席/欠席切り替え
+            radios.forEach(radio => {
+                radio.addEventListener("change", () => {
+                    if (radio.value === "出席" && radio.checked) {
+                        peopleArea.style.display = "block";
+                    } else {
+                        peopleArea.style.display = "none";
+                    }
+                });
+            });
+
+            // 確定・変更ボタンのトグル処理
+            let isFixed = false;
+            button.addEventListener("click", () => {
+                let status = "";
+                radios.forEach(r => { if(r.checked) status = r.value; });
+
+                if (!isFixed) {
+                    if (!nameInput.value.trim()) { alert("名前を入力してください"); return; }
+                    if (!status) { alert("出欠を選択してください"); return; }
+
+                    nameInput.disabled = true;
+                    numberInput.disabled = true;
+                    radios.forEach(r => r.disabled = true);
+                    button.textContent = "変更";
+                    button.classList.add("edit-mode");
+                    row.classList.add("fixed-card");
+                    isFixed = true;
+                } else {
+                    nameInput.disabled = false;
+                    numberInput.disabled = false;
+                    radios.forEach(r => r.disabled = false);
+                    button.textContent = "確定";
+                    button.classList.remove("edit-mode");
+                    row.classList.remove("fixed-card");
+                    isFixed = false;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
