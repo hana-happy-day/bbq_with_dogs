@@ -1,98 +1,132 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>イベント出欠送信</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+/* リセットと基本設定 */
+body {
+    margin: 0;
+    padding: 20px 15px;
+    background: #f4f7f6;
+    font-family: sans-serif;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
-<div class="container">
-    <div id="formContent">
-        <h1>2026年6月○日<br>イベント出欠確認</h1>
-        <p class="desc">お名前を入力して送信してください。</p>
+.container {
+    width: 100%;
+    max-width: 400px;
+    background: #ffffff;
+    padding: 35px 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
 
-        <form id="attendanceForm">
-            <!-- お名前 -->
-            <div class="input-group">
-                <label class="label-title">お名前</label>
-                <input type="text" id="name" placeholder="例：田中 太郎" required>
-            </div>
+h1 {
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
 
-            <!-- 出欠 -->
-            <div class="input-group">
-                <label class="label-title">ご出欠</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="status" value="出席" required> 出席</label>
-                    <label><input type="radio" name="status" value="欠席"> 欠席</label>
-                </div>
-            </div>
+.desc {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+}
 
-            <!-- 人数（出席時のみ表示） -->
-            <div class="input-group" id="peopleArea">
-                <label class="label-title">参加人数（ご本人含む）</label>
-                <input type="number" id="count" min="1" value="1">
-            </div>
+/* フォーム部品 */
+.input-group {
+    margin-bottom: 25px;
+}
 
-            <button type="submit" id="submitBtn">回答を送信する</button>
-        </form>
-    </div>
+.label-title {
+    display: block;
+    font-weight: bold;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    color: #34495e;
+}
 
-    <!-- 送信完了後の表示 -->
-    <div id="successMsg">
-        <div class="success-icon">✓</div>
-        <h2>送信が完了しました</h2>
-        <p>回答ありがとうございます。<br>内容は管理者に届きました。</p>
-        <button onclick="location.reload()" class="back-btn">続けて別の回答を送る</button>
-    </div>
-</div>
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background: #f9f9f9;
+}
 
-<script>
-    const form = document.getElementById('attendanceForm');
-    const peopleArea = document.getElementById('peopleArea');
-    const radios = document.getElementsByName('status');
+/* ラジオボタンをボタン風に */
+.radio-group {
+    display: flex;
+    gap: 10px;
+}
 
-    // ラジオボタンの切り替えで人数欄を表示/非表示
-    radios.forEach(r => {
-        r.addEventListener('change', () => {
-            peopleArea.style.display = (r.value === '出席') ? 'block' : 'none';
-        });
-    });
+.radio-group label {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    background: #fff;
+    font-weight: bold;
+    transition: 0.2s;
+}
 
-    // 送信処理
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        btn.textContent = "送信中...";
+.radio-group input {
+    display: none;
+}
 
-        const nameValue = document.getElementById('name').value;
-        const statusValue = document.querySelector('input[name="status"]:checked').value;
-        const countValue = (statusValue === '出席') ? document.getElementById('count').value : "0";
+.radio-group label:has(input:checked) {
+    background: #4CAF50;
+    color: #fff;
+    border-color: #4CAF50;
+}
 
-        const formData = new FormData();
-        // あなたのフォームIDに合わせて設定済み
-        formData.append("entry.1983265203", nameValue);   
-        formData.append("entry.134308966", statusValue); 
-        formData.append("entry.1747802878", countValue); 
+/* 人数欄 */
+#peopleArea {
+    display: none;
+}
 
-        fetch("https://docs.google.com/forms/d/e/1FAIpQLSd5PFGcJF6fP8tjGJm18DbwIGMVSd_wGfu9mSgyy5zNP-leqA/formResponse", {
-            method: "POST",
-            mode: "no-cors",
-            body: formData
-        }).then(() => {
-            // フォームを隠して完了メッセージを表示
-            document.getElementById('formContent').style.display = 'none';
-            document.getElementById('successMsg').style.display = 'block';
-        }).catch(err => {
-            alert("エラーが発生しました。");
-            btn.disabled = false;
-            btn.textContent = "回答を送信する";
-        });
-    });
-</script>
+/* 送信ボタン */
+#submitBtn {
+    width: 100%;
+    padding: 16px;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
-</body>
-</html>
+#submitBtn:active {
+    transform: scale(0.98);
+}
+
+/* 完了画面 */
+#successMsg {
+    display: none;
+    text-align: center;
+}
+
+.success-icon {
+    font-size: 3rem;
+    color: #4CAF50;
+    margin-bottom: 15px;
+}
+
+.back-btn {
+    margin-top: 20px;
+    background: #ecf0f1;
+    color: #34495e;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
