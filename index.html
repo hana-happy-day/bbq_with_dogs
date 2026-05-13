@@ -10,8 +10,7 @@
 
 <div class="container">
     <div id="formContent">
-        <h1>2026年6月1日<br>イベント出欠確認</h1>
-        <p class="desc">お名前を入力して送信してください。</p>
+        <h1>2026年6月○日<br>イベント出欠確認</h1>
 
         <form id="attendanceForm">
             <!-- お名前 -->
@@ -29,7 +28,7 @@
                 </div>
             </div>
 
-            <!-- 人数（出席時のみ表示） -->
+            <!-- 人数（出席時のみ） -->
             <div class="input-group" id="peopleArea">
                 <label class="label-title">参加人数（ご本人含む）</label>
                 <input type="number" id="count" min="1" value="1">
@@ -39,12 +38,12 @@
         </form>
     </div>
 
-    <!-- 送信完了後の表示 -->
+    <!-- 送信完了メッセージ -->
     <div id="successMsg">
         <div class="success-icon">✓</div>
-        <h2>送信が完了しました</h2>
-        <p>回答ありがとうございます。<br>内容は管理者に届きました。</p>
-        <button onclick="location.reload()" class="back-btn">続けて別の回答を送る</button>
+        <h2>送信完了</h2>
+        <p>回答ありがとうございます。<br>内容を受け付けました。</p>
+        <button onclick="location.reload()" class="back-btn">戻る</button>
     </div>
 </div>
 
@@ -53,7 +52,7 @@
     const peopleArea = document.getElementById('peopleArea');
     const radios = document.getElementsByName('status');
 
-    // ラジオボタンの切り替えで人数欄を表示/非表示
+    // 「出席」選択時のみ人数入力欄を表示
     radios.forEach(r => {
         r.addEventListener('change', () => {
             peopleArea.style.display = (r.value === '出席') ? 'block' : 'none';
@@ -73,17 +72,15 @@
         const countValue = (statusValue === '出席') ? document.getElementById('count').value : "0";
 
         const formData = new FormData();
-        // あなたのフォームIDに合わせて設定済み
-        formData.append("entry.1983265203", nameValue);   
-        formData.append("entry.134308966", statusValue); 
-        formData.append("entry.1747802878", countValue); 
+        formData.append("entry.1983265203", nameValue);   // 名前
+        formData.append("entry.134308966", statusValue); // 出欠
+        formData.append("entry.1747802878", countValue);  // 人数
 
         fetch("https://docs.google.com/forms/d/e/1FAIpQLSd5PFGcJF6fP8tjGJm18DbwIGMVSd_wGfu9mSgyy5zNP-leqA/formResponse", {
             method: "POST",
             mode: "no-cors",
             body: formData
         }).then(() => {
-            // フォームを隠して完了メッセージを表示
             document.getElementById('formContent').style.display = 'none';
             document.getElementById('successMsg').style.display = 'block';
         }).catch(err => {
