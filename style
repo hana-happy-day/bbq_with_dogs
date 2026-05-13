@@ -1,0 +1,154 @@
+/* 全体設定 */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px 10px;
+    background: #f3f6fb;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    color: #333;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: clamp(1.1rem, 4vw, 1.5rem); /* 画面幅に合わせて伸縮 */
+    color: #2c3e50;
+}
+
+/* PC用レイアウト（グリッド） */
+.row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 100px;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.header {
+    font-weight: bold;
+    color: #888;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+    text-align: center;
+}
+
+.card {
+    background: #fafafa;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+.fixed-card {
+    background: #e8f5e9;
+    border-color: #c8e6c9;
+}
+
+/* 入力要素 */
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px; /* iPhoneでのズーム防止(16px以上必須) */
+}
+
+input:disabled {
+    background: #f5f5f5;
+    color: #888;
+}
+
+/* ラジオボタン */
+.radio-group {
+    display: flex;
+    gap: 8px;
+}
+
+.radio-group label {
+    flex: 1;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.radio-group input {
+    margin-right: 4px;
+}
+
+/* 人数エリア（初期非表示） */
+.people-area {
+    display: none;
+}
+
+/* ボタン */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+button:hover { background: #45a049; }
+
+.edit-mode {
+    background: #ff9800;
+}
+.edit-mode:hover { background: #e68a00; }
+
+/* --- スマホ用スタイル (768px以下) --- */
+@media (max-width: 768px) {
+    .header {
+        display: none; /* 見出しを消す */
+    }
+
+    .row {
+        grid-template-columns: 1fr; /* 縦1列にする */
+        gap: 10px;
+        margin-bottom: 25px; /* カード同士の間隔 */
+        padding: 15px;
+    }
+
+    /* スマホで何の項目か分かるようにラベルを追加 */
+    .name-unit::before {
+        content: "お名前";
+        display: block;
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 4px;
+    }
+
+    .people-area::before {
+        content: "参加人数";
+        display: block;
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 4px;
+    }
+    
+    .radio-group label {
+        padding: 12px; /* タップしやすく大きく */
+    }
+}
