@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBQ集金</title>
+
+<link rel="stylesheet" href="pay_style.css">
+
+<body>
+
+<h1>BBQ集金管理</h1>
+<p>合計金額:14100円</p>
+<div class="summary" id="summary">
+受取済み：0円
+</div>
+
+<div id="list"></div>
+
+<script src="pay_script.js"></script></head>
+</body>
+</html>
