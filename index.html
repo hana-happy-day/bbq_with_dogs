@@ -53,12 +53,12 @@
     const radios = document.getElementsByName('status');
 
     // 「出席」選択時のみ人数入力欄を表示
-    radios.forEach(r => {
+    Array.from(radios).forEach(r => {
         r.addEventListener('change', () => {
-            peopleArea.style.display = (r.value === '出席') ? 'block' : 'none';
+            peopleArea.style.display =
+                (r.value === '出席') ? 'block' : 'none';
         });
     });
-
     // 送信処理
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -72,12 +72,11 @@
         const countValue = (statusValue === '出席') ? document.getElementById('count').value : "0";
 
         const formData = new FormData();
-        formData.append("entry.1983265203", nameValue);   // 名前
-        formData.append("entry.134308966", statusValue); // 出欠
-        formData.append("entry.1747802878", countValue);  // 人数
-
-        fetch("https://docs.google.com/forms/d/e/1FAIpQLSd5PFGcJF6fP8tjGJm18DbwIGMVSd_wGfu9mSgyy5zNP-leqA/formResponse", {
-            method: "POST",
+        formData.append("entry.2066347943", nameValue);
+        formData.append("entry.1741364705", statusValue);
+        formData.append("entry.1116429430", countValue);
+        fetch("https://docs.google.com/forms/d/e/1FAIpQLSdewAA0GrH2gUkbZ4gZ-v8virJZFzH282NjzF0eJy3grRRkTw/formResponse", 
+        {   method: "POST",
             mode: "no-cors",
             body: formData
         }).then(() => {
