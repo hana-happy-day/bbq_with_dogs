@@ -126,7 +126,11 @@ button:disabled {
     text-align: center;
     padding: 20px 0;
 }
-
+#rimit{
+    width: fit-content;
+    margin: 0 auto;
+}
+    
 .success-icon {
     font-size: 50px;
     color: #4CAF50;
