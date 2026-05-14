@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>イベント出欠送信</title>
+    <title>出欠送信</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
 <div class="container">
 
     <div id="formContent">
-        <h1>2026年5月31日<br>イベント出欠確認</h1>
+        <h1>2026年5月31日<br>BBQ出欠確認</h1>
 
         <form id="attendanceForm">
 
@@ -20,7 +20,7 @@
                 <label class="label-title">お名前</label>
                 <input type="text"
                        id="name"
-                       placeholder="例：田中 太郎"
+                       placeholder="例：華"
                        required>
             </div>
 
@@ -49,7 +49,7 @@
             <!-- 人数 -->
             <div class="input-group" id="peopleArea">
                 <label class="label-title">
-                    参加人数（ご本人含む）
+                    参加人数（にんげん）
                 </label>
 
                 <input type="number"
@@ -174,7 +174,7 @@ form.addEventListener('submit', function(e){
 })
     .catch(() => {
 
-        alert("送信エラー");
+        alert("送信エラー！華のママへLINEください");
 
         btn.disabled = false;
         btn.textContent = "回答を送信する";
