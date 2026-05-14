@@ -156,22 +156,22 @@ form.addEventListener('submit', function(e){
     );
 
 
-    fetch(
-        "https://docs.google.com/forms/d/e/1FAIpQLSdewAA0GrH2gUkbZ4gZ-v8virJZFzH282NjzF0eJy3grRRkTw/formResponse",
-        {
-            method: "POST",
-            body: formData
-        }
-    )
+ fetch(
+    "https://docs.google.com/forms/d/e/1FAIpQLSdewAA0GrH2gUkbZ4gZ-v8virJZFzH282NjzF0eJy3grRRkTw/formResponse",
+    {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+    }
+)
 
-    .then(() => {
+.then(() => {
 
-        document.getElementById('formContent').style.display = 'none';
+    document.getElementById('formContent').style.display = 'none';
 
-        document.getElementById('successMsg').style.display = 'block';
+    document.getElementById('successMsg').style.display = 'block';
 
-    })
-
+})
     .catch(() => {
 
         alert("送信エラー");
