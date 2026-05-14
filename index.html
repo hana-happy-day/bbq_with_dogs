@@ -9,85 +9,180 @@
 <body>
 
 <div class="container">
+
     <div id="formContent">
         <h1>2026年5月31日<br>イベント出欠確認</h1>
 
         <form id="attendanceForm">
+
             <!-- お名前 -->
             <div class="input-group">
                 <label class="label-title">お名前</label>
-                <input type="text" id="name" placeholder="例：田中 太郎" required>
+                <input type="text"
+                       id="name"
+                       placeholder="例：田中 太郎"
+                       required>
             </div>
 
             <!-- 出欠 -->
             <div class="input-group">
                 <label class="label-title">ご出欠</label>
+
                 <div class="radio-group">
-                    <label><input type="radio" name="status" value="出席" required> 出席</label>
-                    <label><input type="radio" name="status" value="欠席"> 欠席</label>
+                    <label>
+                        <input type="radio"
+                               name="status"
+                               value="出席"
+                               required>
+                        出席
+                    </label>
+
+                    <label>
+                        <input type="radio"
+                               name="status"
+                               value="欠席">
+                        欠席
+                    </label>
                 </div>
             </div>
 
-            <!-- 人数（出席時のみ） -->
+            <!-- 人数 -->
             <div class="input-group" id="peopleArea">
-                <label class="label-title">参加人数（ご本人含む）</label>
-                <input type="number" id="count" min="1" value="1">
+                <label class="label-title">
+                    参加人数（ご本人含む）
+                </label>
+
+                <input type="number"
+                       id="count"
+                       min="1"
+                       value="1">
             </div>
 
-            <button type="submit" id="submitBtn">回答を送信する</button>
+            <button type="submit" id="submitBtn">
+                回答を送信する
+            </button>
+
         </form>
     </div>
 
-    <!-- 送信完了メッセージ -->
-    <div id="successMsg">
+    <!-- 完了画面 -->
+    <div id="successMsg" style="display:none;">
         <div class="success-icon">✓</div>
+
         <h2>送信完了</h2>
-        <p>回答ありがとうございます。<br>内容を受け付けました。</p>
-        <button onclick="location.reload()" class="back-btn">戻る</button>
+
+        <p>
+            回答ありがとうございます。<br>
+            内容を受け付けました。
+        </p>
+
+        <button onclick="location.reload()" class="back-btn">
+            戻る
+        </button>
     </div>
+
 </div>
 
 <script>
-    const form = document.getElementById('attendanceForm');
-    const peopleArea = document.getElementById('peopleArea');
-    const radios = document.getElementsByName('status');
 
-    // 「出席」選択時のみ人数入力欄を表示
-    Array.from(radios).forEach(r => {
-        r.addEventListener('change', () => {
-            peopleArea.style.display =
-                (r.value === '出席') ? 'block' : 'none';
-        });
+const form = document.getElementById('attendanceForm');
+const peopleArea = document.getElementById('peopleArea');
+const radios = document.getElementsByName('status');
+
+
+// 初期状態で人数欄を非表示
+peopleArea.style.display = "none";
+
+
+// 出席時のみ人数表示
+Array.from(radios).forEach(radio => {
+
+    radio.addEventListener('change', () => {
+
+        if (radio.value === '出席' && radio.checked) {
+            peopleArea.style.display = "block";
+        } else if (radio.value === '欠席' && radio.checked) {
+            peopleArea.style.display = "none";
+        }
+
     });
-    // 送信処理
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        btn.textContent = "送信中...";
 
-        const nameValue = document.getElementById('name').value;
-        const statusValue = document.querySelector('input[name="status"]:checked').value;
-        const countValue = (statusValue === '出席') ? document.getElementById('count').value : "0";
+});
 
-        const formData = new FormData();
-        formData.append("entry.2066347943", nameValue);
-        formData.append("entry.1741364705", statusValue);
-        formData.append("entry.1116429430", countValue);
-        fetch("https://docs.google.com/forms/d/e/1FAIpQLSdewAA0GrH2gUkbZ4gZ-v8virJZFzH282NjzF0eJy3grRRkTw/formResponse", 
-        {   method: "POST",
-            mode: "no-cors",
+
+// 送信処理
+form.addEventListener('submit', function(e){
+
+    e.preventDefault();
+
+    const btn = document.getElementById('submitBtn');
+
+    btn.disabled = true;
+    btn.textContent = "送信中...";
+
+
+    const nameValue =
+        document.getElementById('name').value;
+
+    const statusValue =
+        document.querySelector(
+            'input[name="status"]:checked'
+        ).value;
+
+    const countValue =
+        (statusValue === '出席')
+        ? String(document.getElementById('count').value)
+        : "0";
+
+
+    const formData = new FormData();
+
+    // 名前
+    formData.append(
+        "entry.2066347943",
+        nameValue
+    );
+
+    // 出欠
+    formData.append(
+        "entry.1741364705",
+        statusValue
+    );
+
+    // 人数
+    formData.append(
+        "entry.1116429430",
+        countValue
+    );
+
+
+    fetch(
+        "https://docs.google.com/forms/d/e/1FAIpQLSdewAA0GrH2gUkbZ4gZ-v8virJZFzH282NjzF0eJy3grRRkTw/formResponse",
+        {
+            method: "POST",
             body: formData
-        }).then(() => {
-            document.getElementById('formContent').style.display = 'none';
-            document.getElementById('successMsg').style.display = 'block';
-        }).catch(err => {
-            alert("エラーが発生しました。");
-            btn.disabled = false;
-            btn.textContent = "回答を送信する";
-        });
+        }
+    )
+
+    .then(() => {
+
+        document.getElementById('formContent').style.display = 'none';
+
+        document.getElementById('successMsg').style.display = 'block';
+
+    })
+
+    .catch(() => {
+
+        alert("送信エラー");
+
+        btn.disabled = false;
+        btn.textContent = "回答を送信する";
+
     });
+
+});
+
 </script>
 
 </body>
